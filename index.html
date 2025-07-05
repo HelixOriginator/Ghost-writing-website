@@ -184,8 +184,7 @@
                     </div>
                 </div>
                 
-                <form class="contact-form" name="contact" method="POST" data-netlify="true">
-                    <input type="hidden" name="form-name" value="contact" />
+                <form class="contact-form" id="contact-form">
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input type="text" id="name" name="name" required>
@@ -209,6 +208,10 @@
                         <textarea id="message" name="message" rows="5" placeholder="Tell me about your project, timeline, and any specific requirements..."></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Send Message</button>
+                    <div style="text-align: center; margin-top: 20px;">
+                        <p>Or email me directly:</p>
+                        <a href="mailto:kallolchitralimagicpen@gmail.com?subject=Ghostwriting Inquiry&body=Hi! I'm interested in your ghostwriting services. Please tell me more about:" class="btn btn-secondary">📧 Email Me Directly</a>
+                    </div>
                 </form>
             </div>
         </div>
@@ -242,6 +245,7 @@
         </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
