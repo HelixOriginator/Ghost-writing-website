@@ -1,3 +1,12 @@
+// Copy email function
+function copyEmail() {
+    navigator.clipboard.writeText('kallolchitralimagicpen@gmail.com').then(function() {
+        alert('Email copied! You can now paste it in your email app.');
+    }).catch(function() {
+        alert('Email: kallolchitralimagicpen@gmail.com (Please copy manually)');
+    });
+}
+
 // Mobile Navigation Toggle
 document.addEventListener('DOMContentLoaded', function() {
     const navToggle = document.querySelector('.nav-toggle');
@@ -33,18 +42,20 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Contact form handling
-    const contactForm = document.querySelector('.contact-form');
+    // Initialize EmailJS
+    emailjs.init('YOUR_PUBLIC_KEY'); // You'll need to replace this
+
+    // Contact form handling with EmailJS
+    const contactForm = document.querySelector('#contact-form');
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
             // Get form data
-            const formData = new FormData(this);
-            const name = formData.get('name');
-            const email = formData.get('email');
-            const service = formData.get('service');
-            const message = formData.get('message');
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const service = document.getElementById('service').value;
+            const message = document.getElementById('message').value;
 
             // Simple validation
             if (!name || !email || !service || !message) {
@@ -59,8 +70,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
+            // Send email using EmailJS
+            const templateParams = {
+                from_name: name,
+                from_email: email,
+                service_type: service,
+                message: message,
+                to_email: 'kallolchitralimagicpen@gmail.com'
+            };
+
             // For now, just show a success message
-            // In a real website, you'd send this to a server
+            // To enable real emails, you need to set up EmailJS account
             alert('Thank you for your message! I\'ll get back to you within 24 hours.');
             
             // Reset form
