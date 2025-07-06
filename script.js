@@ -42,49 +42,51 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Initialize EmailJS
-    emailjs.init('YOUR_PUBLIC_KEY'); // You'll need to replace this
-
-    // Contact form handling with EmailJS
-    const contactForm = document.querySelector('#contact-form');
+    // Contact form handling with FormSubmit
+    const contactForm = document.querySelector('.contact-form');
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
+            // Show loading state
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+            submitButton.textContent = 'Sending...';
+            submitButton.disabled = true;
             
-            // Get form data
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const service = document.getElementById('service').value;
-            const message = document.getElementById('message').value;
-
-            // Simple validation
-            if (!name || !email || !service || !message) {
+            // Basic validation
+            const requiredFields = this.querySelectorAll('[required]');
+            let isValid = true;
+            
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    field.style.border = '2px solid red';
+                } else {
+                    field.style.border = '';
+                }
+            });
+            
+            if (!isValid) {
+                e.preventDefault();
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
                 alert('Please fill in all required fields.');
                 return;
             }
-
+            
             // Email validation
+            const emailField = this.querySelector('input[type="email"]');
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
+            if (!emailRegex.test(emailField.value)) {
+                e.preventDefault();
+                emailField.style.border = '2px solid red';
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
                 alert('Please enter a valid email address.');
                 return;
             }
-
-            // Send email using EmailJS
-            const templateParams = {
-                from_name: name,
-                from_email: email,
-                service_type: service,
-                message: message,
-                to_email: 'kallolchitralimagicpen@gmail.com'
-            };
-
-            // For now, just show a success message
-            // To enable real emails, you need to set up EmailJS account
-            alert('Thank you for your message! I\'ll get back to you within 24 hours.');
             
-            // Reset form
-            this.reset();
+            // If validation passes, the form will submit naturally to FormSubmit
+            // FormSubmit will handle the redirect or show confirmation
         });
     }
 
